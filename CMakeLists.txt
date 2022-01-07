@@ -3,7 +3,7 @@ project(raycast C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(raycast main.c)
+add_executable(raycast main.c constants.h)
 
 # brew install sdl2
 find_package(SDL2 REQUIRED)

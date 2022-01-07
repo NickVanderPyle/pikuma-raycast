@@ -47,7 +47,7 @@ void destroyWindow() {
     SDL_Quit();
 }
 
-void setup(){
+void setup() {
     playerX = 0;
     playerY = 0;
 }
@@ -60,7 +60,7 @@ void processInput() {
             isGameRunning = FALSE;
             break;
         case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_ESCAPE){
+            if (event.key.keysym.sym == SDLK_ESCAPE) {
                 isGameRunning = FALSE;
             }
             break;
@@ -76,7 +76,7 @@ void render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    SDL_SetRenderDrawColor(renderer, 255,255, 0, 255);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
     SDL_Rect rect = {playerX, playerY, 20, 20};
     SDL_RenderFillRect(renderer, &rect);
 

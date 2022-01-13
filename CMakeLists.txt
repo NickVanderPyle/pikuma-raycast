@@ -3,7 +3,11 @@ project(raycast C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(raycast main.c constants.h)
+set(SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
+file(GLOB_RECURSE APP_HEADERS CONFIGURE_DEPENDS "${SRC_DIR}/*.h")
+file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS "${SRC_DIR}/*.c")
+
+add_executable(raycast ${APP_HEADERS} ${APP_SOURCES})
 
 # brew install sdl2
 find_package(SDL2 REQUIRED)

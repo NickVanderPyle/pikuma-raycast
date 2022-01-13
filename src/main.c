@@ -71,7 +71,7 @@ void processInput() {
 void update() {
     int ticksThisFrame = SDL_GetTicks();
     int timeToWait = FRAME_TIME_LENGTH - (ticksThisFrame - ticksOnLastFrame);
-    if (timeToWait> 0 && timeToWait <= FRAME_TIME_LENGTH) {
+    if (timeToWait > 0 && timeToWait <= FRAME_TIME_LENGTH) {
         SDL_Delay(timeToWait);
     }
 

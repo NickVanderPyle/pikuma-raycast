@@ -380,13 +380,45 @@ void update() {
     castAllRays();
 }
 
+void generate3DProjection() {
+    float distanceProjectionPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
+    for (int i = 0; i < NUM_RAYS; i++) {
+        // corrects fisheye effect
+        float perpendicularDistance = rays[i].distance * cos(rays[i].rayAngle - player.rotationAngle);
+        float projectedWallHeight = (TILE_SIZE / perpendicularDistance) * distanceProjectionPlane;
+
+        int wallStripHeight = projectedWallHeight;
+
+        int wallTopPixel = (WINDOW_HEIGHT / 2) - (wallStripHeight / 2);
+        wallTopPixel = wallTopPixel < 0 ? 0 : wallTopPixel;
+
+        int wallBottomPixel = (WINDOW_HEIGHT / 2) + (wallStripHeight / 2);
+        wallBottomPixel = wallBottomPixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wallBottomPixel;
+
+        //render ceiling color
+        for (int y = 0; y < wallTopPixel; y++) {
+            colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF333333;
+        }
+
+        //render wall color
+        for (int y = wallTopPixel; y < wallBottomPixel; y++) {
+            colorBuffer[(WINDOW_WIDTH * y) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCCCCCC;
+        }
+
+        //render floor color
+        for (int y = wallBottomPixel; y < WINDOW_HEIGHT; y++) {
+            colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF777777;
+        }
+    }
+}
+
 void clearColorBuffer(Uint32 color) {
     for (int x = 0; x < WINDOW_WIDTH; x++) {
         for (int y = 0; y < WINDOW_HEIGHT; y++) {
             if (x == y) {
                 colorBuffer[(WINDOW_WIDTH * y) + x] = color;
             } else {
-                colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFFFF0000;
+                colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFF000000;
             }
         }
     }
@@ -406,9 +438,11 @@ void render() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
+    generate3DProjection();
+
     //clear color buffer, displayed behind minimap
     renderColorBuffer();
-    clearColorBuffer(0xFF00EE30);
+    clearColorBuffer(0xFF000000);
 
     // minimap
     RenderMap();

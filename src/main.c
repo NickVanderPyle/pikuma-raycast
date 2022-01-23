@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <SDL.h>
-#include <limits.h>
 #include "constants.h"
 
 const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {
@@ -52,6 +51,8 @@ int ticksOnLastFrame = 0;
 
 Uint32 *colorBuffer = NULL;
 SDL_Texture *colorBufferTexture;
+
+Uint32 *wallTexture = NULL;
 
 int initializeWindow() {
 #ifdef __APPLE__
@@ -113,6 +114,15 @@ void setup() {
             WINDOW_WIDTH,
             WINDOW_HEIGHT
     );
+
+    wallTexture = (Uint32 *) malloc(sizeof(Uint32) * (Uint32) TEXTURE_WIDTH * (Uint32) TEXTURE_HEIGHT);
+
+    // create blue/black texture
+    for (int x = 0; x < TEXTURE_WIDTH; x++) {
+        for (int y = 0; y < TEXTURE_HEIGHT; y++) {
+            wallTexture[(TEXTURE_WIDTH * y) + x] = (x % 8 && y % 8) ? 0xFF0000FF : 0xFF000000;
+        }
+    }
 }
 
 int mapHasWallAt(float x, float y) {
@@ -383,8 +393,9 @@ void update() {
 void generate3DProjection() {
     float distanceProjectionPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
     for (int i = 0; i < NUM_RAYS; i++) {
+        struct Ray ray = rays[i];
         // corrects fisheye effect
-        float perpendicularDistance = rays[i].distance * cos(rays[i].rayAngle - player.rotationAngle);
+        float perpendicularDistance = ray.distance * cos(ray.rayAngle - player.rotationAngle);
         float projectedWallHeight = (TILE_SIZE / perpendicularDistance) * distanceProjectionPlane;
 
         int wallStripHeight = projectedWallHeight;
@@ -401,8 +412,17 @@ void generate3DProjection() {
         }
 
         //render wall color
+        int textureOffsetX = ray.wasHitVertical
+                             ? (int) ray.wallHitY % TILE_SIZE
+                             : (int) ray.wallHitX % TILE_SIZE;
         for (int y = wallTopPixel; y < wallBottomPixel; y++) {
-            colorBuffer[(WINDOW_WIDTH * y) + i] = rays[i].wasHitVertical ? 0xFFFFFFFF : 0xFFCCCCCC;
+            //set color of wall pixel from color of texture pixel.
+            int distanceFromTop = y + (wallStripHeight / 2) - (WINDOW_HEIGHT / 2);
+            int textureOffsetY = distanceFromTop * ((float) TEXTURE_HEIGHT / wallStripHeight);
+            int textureOffset = (TEXTURE_WIDTH * textureOffsetY) + textureOffsetX;
+            Uint32 texelColor = wallTexture[textureOffset];
+
+            colorBuffer[(WINDOW_WIDTH * y) + i] = texelColor;
         }
 
         //render floor color

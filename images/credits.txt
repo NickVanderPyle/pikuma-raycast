@@ -1,0 +1,10 @@
+"64x Textures an Overlays" by FacadeGaikan licensed CC0 https://opengameart.org/content/64x-textures-an-overlays
+    Bark.png
+    bookshelf.png
+    Bricks.png
+    Coal.png
+    Dirt.png
+    Gold0.png
+    TilledSoil.png
+    WalkStone.png
+    Stone.png

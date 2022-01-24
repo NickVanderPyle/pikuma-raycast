@@ -39,10 +39,6 @@ struct Ray {
     float wallHitY;
     float distance;
     bool wasHitVertical;
-    bool isRayFacingUp;
-    bool isRayFacingDown;
-    bool isRayFacingLeft;
-    bool isRayFacingRight;
     int wallHitContent;
 } rays[NUM_RAYS];
 
@@ -280,10 +276,6 @@ void castRay(float rayAngle, int stripId) {
         rays[stripId].wasHitVertical = false;
     }
     rays[stripId].rayAngle = rayAngle;
-    rays[stripId].isRayFacingUp = isRayFacingUp;
-    rays[stripId].isRayFacingDown = isRayFacingDown;
-    rays[stripId].isRayFacingLeft = isRayFacingLeft;
-    rays[stripId].isRayFacingRight = isRayFacingRight;
 }
 
 void castAllRays() {

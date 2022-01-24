@@ -377,8 +377,8 @@ void update() {
 }
 
 void generate3DProjection() {
-    for (int i = 0; i < NUM_RAYS; i++) {
-        struct Ray ray = rays[i];
+    for (int x = 0; x < NUM_RAYS; x++) {
+        struct Ray ray = rays[x];
         // corrects fisheye effect
         float perpendicularDistance = ray.distance * cos(ray.rayAngle - player.rotationAngle);
         float projectedWallHeight = (TILE_SIZE / perpendicularDistance) * DIST_PROJ_PLANE;
@@ -393,7 +393,7 @@ void generate3DProjection() {
 
         //render ceiling color
         for (int y = 0; y < wallTopPixel; y++) {
-            colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF333333;
+            colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFF333333;
         }
 
         //render wall color
@@ -410,12 +410,12 @@ void generate3DProjection() {
             int textureOffset = (textureWidth * textureOffsetY) + textureOffsetX;
             uint32_t texelColor = wallTextures[texNum].texture_buffer[textureOffset];
 
-            colorBuffer[(WINDOW_WIDTH * y) + i] = texelColor;
+            colorBuffer[(WINDOW_WIDTH * y) + x] = texelColor;
         }
 
         //render floor color
         for (int y = wallBottomPixel; y < WINDOW_HEIGHT; y++) {
-            colorBuffer[(WINDOW_WIDTH * y) + i] = 0xFF777777;
+            colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFF777777;
         }
     }
 }

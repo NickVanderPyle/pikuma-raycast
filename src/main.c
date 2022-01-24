@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include <SDL.h>
 #include "constants.h"
 #include "textures.h"
@@ -37,30 +38,30 @@ struct Ray {
     float wallHitX;
     float wallHitY;
     float distance;
-    int wasHitVertical;
-    int isRayFacingUp;
-    int isRayFacingDown;
-    int isRayFacingLeft;
-    int isRayFacingRight;
+    bool wasHitVertical;
+    bool isRayFacingUp;
+    bool isRayFacingDown;
+    bool isRayFacingLeft;
+    bool isRayFacingRight;
     int wallHitContent;
 } rays[NUM_RAYS];
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
-int isGameRunning = FALSE;
+bool isGameRunning = false;
 int ticksOnLastFrame = 0;
 
 uint32_t *colorBuffer = NULL;
 SDL_Texture *colorBufferTexture;
 
-int initializeWindow() {
+bool initializeWindow() {
 #ifdef __APPLE__
     SDL_SetHint(SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES, "1");
 #endif // __APPLE__
 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         fprintf(stderr, "Error initializing SDL.\n");
-        return FALSE;
+        return false;
     }
 
     window = SDL_CreateWindow(
@@ -73,17 +74,17 @@ int initializeWindow() {
     );
     if (!window) {
         fprintf(stderr, "Error creating SDL window.\n");
-        return FALSE;
+        return false;
     }
 
     renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer) {
         fprintf(stderr, "Error creating SDL renderer.\n");
-        return FALSE;
+        return false;
     }
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    return TRUE;
+    return true;
 }
 
 void destroyWindow() {
@@ -118,9 +119,9 @@ void setup() {
     loadWallTextures();
 }
 
-int mapHasWallAt(float x, float y) {
+bool mapHasWallAt(float x, float y) {
     if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
-        return TRUE;
+        return true;
     }
     int mapGridIndexX = floor(x / TILE_SIZE);
     int mapGridIndexY = floor(y / TILE_SIZE);
@@ -182,7 +183,7 @@ void castRay(float rayAngle, int stripId) {
     float xStep, yStep;
 
     // Horizontal Ray Intersect Test
-    int foundHorizWallHit = FALSE;
+    bool foundHorizWallHit = false;
     float horizWallHitX = 0;
     float horizWallHitY = 0;
     int horizWallContent = 0;
@@ -212,7 +213,7 @@ void castRay(float rayAngle, int stripId) {
             horizWallHitX = nextHorizTouchX;
             horizWallHitY = nextHorizTouchY;
             horizWallContent = map[(int) floor(yToCheck / TILE_SIZE)][(int) floor(xToCheck / TILE_SIZE)];
-            foundHorizWallHit = TRUE;
+            foundHorizWallHit = true;
             break;
         }
 
@@ -221,7 +222,7 @@ void castRay(float rayAngle, int stripId) {
     }
 
     // Vertical Ray Intersect Test
-    int foundVerticalWallHit = FALSE;
+    bool foundVerticalWallHit = false;
     float verticalWallHitX = 0;
     float verticalWallHitY = 0;
     int verticalWallContent = 0;
@@ -251,7 +252,7 @@ void castRay(float rayAngle, int stripId) {
             verticalWallHitX = nextVerticalTouchX;
             verticalWallHitY = nextVerticalTouchY;
             verticalWallContent = map[(int) floor(yToCheck / TILE_SIZE)][(int) floor(xToCheck / TILE_SIZE)];
-            foundVerticalWallHit = TRUE;
+            foundVerticalWallHit = true;
             break;
         }
 
@@ -270,13 +271,13 @@ void castRay(float rayAngle, int stripId) {
         rays[stripId].wallHitX = verticalWallHitX;
         rays[stripId].wallHitY = verticalWallHitY;
         rays[stripId].wallHitContent = verticalWallContent;
-        rays[stripId].wasHitVertical = TRUE;
+        rays[stripId].wasHitVertical = false;
     } else {
         rays[stripId].distance = horizontalHitDistance;
         rays[stripId].wallHitX = horizWallHitX;
         rays[stripId].wallHitY = horizWallHitY;
         rays[stripId].wallHitContent = horizWallContent;
-        rays[stripId].wasHitVertical = FALSE;
+        rays[stripId].wasHitVertical = false;
     }
     rays[stripId].rayAngle = rayAngle;
     rays[stripId].isRayFacingUp = isRayFacingUp;
@@ -328,12 +329,12 @@ void processInput() {
     SDL_PollEvent(&event);
     switch (event.type) {
         case SDL_QUIT:
-            isGameRunning = FALSE;
+            isGameRunning = false;
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym) {
                 case SDLK_ESCAPE:
-                    isGameRunning = FALSE;
+                    isGameRunning = false;
                     break;
                 case SDLK_UP:
                     player.walkDirection = +1;

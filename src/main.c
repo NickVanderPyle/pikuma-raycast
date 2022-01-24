@@ -286,10 +286,9 @@ void castRay(float rayAngle, int stripId) {
 }
 
 void castAllRays() {
-    float rayAngle = player.rotationAngle - (FOV_ANGLE / 2);
-    for (int stripId = 0; stripId < NUM_RAYS; stripId++) {
-        castRay(rayAngle, stripId);
-        rayAngle += FOV_ANGLE / NUM_RAYS;
+    for (int col = 0; col < NUM_RAYS; col++) {
+        float angle = player.rotationAngle + atan((col - NUM_RAYS / 2) / DIST_PROJ_PLANE);
+        castRay(angle, col);
     }
 }
 
@@ -384,12 +383,11 @@ void update() {
 }
 
 void generate3DProjection() {
-    float distanceProjectionPlane = (WINDOW_WIDTH / 2) / tan(FOV_ANGLE / 2);
     for (int i = 0; i < NUM_RAYS; i++) {
         struct Ray ray = rays[i];
         // corrects fisheye effect
         float perpendicularDistance = ray.distance * cos(ray.rayAngle - player.rotationAngle);
-        float projectedWallHeight = (TILE_SIZE / perpendicularDistance) * distanceProjectionPlane;
+        float projectedWallHeight = (TILE_SIZE / perpendicularDistance) * DIST_PROJ_PLANE;
 
         int wallStripHeight = projectedWallHeight;
 

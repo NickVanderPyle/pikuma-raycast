@@ -409,11 +409,13 @@ void generate3DProjection() {
                              ? (int) ray.wallHitY % TILE_SIZE
                              : (int) ray.wallHitX % TILE_SIZE;
         int texNum = ray.wallHitContent - 1;
+        int textureWidth = wallTextures[texNum].width;
+        int textureHeight = wallTextures[texNum].height;
         for (int y = wallTopPixel; y < wallBottomPixel; y++) {
             //set color of wall pixel from color of texture pixel.
             int distanceFromTop = y + (wallStripHeight / 2) - (WINDOW_HEIGHT / 2);
-            int textureOffsetY = distanceFromTop * ((float) TEXTURE_HEIGHT / wallStripHeight);
-            int textureOffset = (TEXTURE_WIDTH * textureOffsetY) + textureOffsetX;
+            int textureOffsetY = distanceFromTop * ((float) textureHeight / wallStripHeight);
+            int textureOffset = (textureWidth * textureOffsetY) + textureOffsetX;
             uint32_t texelColor = wallTextures[texNum].texture_buffer[textureOffset];
 
             colorBuffer[(WINDOW_WIDTH * y) + i] = texelColor;

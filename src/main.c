@@ -60,12 +60,15 @@ bool initializeWindow() {
         return false;
     }
 
+    SDL_DisplayMode displayMode;
+    SDL_GetCurrentDisplayMode(0, &displayMode);
+
     window = SDL_CreateWindow(
             NULL,
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            WINDOW_WIDTH,
-            WINDOW_HEIGHT,
+            displayMode.w,
+            displayMode.h,
             SDL_WINDOW_BORDERLESS
     );
     if (!window) {
@@ -116,7 +119,7 @@ void setup() {
 }
 
 bool mapHasWallAt(float x, float y) {
-    if (x < 0 || x > WINDOW_WIDTH || y < 0 || y > WINDOW_HEIGHT) {
+    if (x < 0 || x > (MAP_NUM_COLS * TILE_SIZE) || y < 0 || y > (MAP_NUM_ROWS * TILE_SIZE)) {
         return true;
     }
     int mapGridIndexX = floor(x / TILE_SIZE);
@@ -199,8 +202,11 @@ void castRay(float rayAngle, int stripId) {
     float nextHorizTouchX = xIntercept;
     float nextHorizTouchY = yIntercept;
 
-    while (nextHorizTouchX >= 0 && nextHorizTouchX <= WINDOW_WIDTH && nextHorizTouchY >= 0 &&
-           nextHorizTouchY <= WINDOW_HEIGHT) {
+    int mapBoundaryX = MAP_NUM_COLS * TILE_SIZE;
+    int mapBoundaryY = MAP_NUM_ROWS * TILE_SIZE;
+
+    while (nextHorizTouchX >= 0 && nextHorizTouchX <= mapBoundaryX && nextHorizTouchY >= 0 &&
+           nextHorizTouchY <= mapBoundaryY) {
         float xToCheck = nextHorizTouchX;
         float yToCheck = nextHorizTouchY + (isRayFacingUp ? -1 : 0);
 
@@ -238,8 +244,8 @@ void castRay(float rayAngle, int stripId) {
     float nextVerticalTouchX = xIntercept;
     float nextVerticalTouchY = yIntercept;
 
-    while (nextVerticalTouchX >= 0 && nextVerticalTouchX <= WINDOW_WIDTH && nextVerticalTouchY >= 0 &&
-           nextVerticalTouchY <= WINDOW_HEIGHT) {
+    while (nextVerticalTouchX >= 0 && nextVerticalTouchX <= mapBoundaryX && nextVerticalTouchY >= 0 &&
+           nextVerticalTouchY <= mapBoundaryY) {
         float xToCheck = nextVerticalTouchX + (isRayFacingLeft ? -1 : 0);
         float yToCheck = nextVerticalTouchY;
 

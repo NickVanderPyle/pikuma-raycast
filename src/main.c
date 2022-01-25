@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <SDL.h>
-#include "constants.h"
+#include "defs.h"
 #include "textures.h"
 
 const int map[MAP_NUM_ROWS][MAP_NUM_COLS] = {

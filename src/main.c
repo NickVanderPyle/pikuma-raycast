@@ -267,7 +267,7 @@ void castRay(float rayAngle, int stripId) {
         rays[stripId].wallHitX = verticalWallHitX;
         rays[stripId].wallHitY = verticalWallHitY;
         rays[stripId].wallHitContent = verticalWallContent;
-        rays[stripId].wasHitVertical = false;
+        rays[stripId].wasHitVertical = true;
         rays[stripId].rayAngle = rayAngle;
     } else {
         rays[stripId].distance = horizontalHitDistance;

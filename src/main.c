@@ -421,14 +421,8 @@ void generate3DProjection() {
 }
 
 void clearColorBuffer(uint32_t color) {
-    for (int x = 0; x < WINDOW_WIDTH; x++) {
-        for (int y = 0; y < WINDOW_HEIGHT; y++) {
-            if (x == y) {
-                colorBuffer[(WINDOW_WIDTH * y) + x] = color;
-            } else {
-                colorBuffer[(WINDOW_WIDTH * y) + x] = 0xFF000000;
-            }
-        }
+    for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++) {
+        colorBuffer[i] = color;
     }
 }
 

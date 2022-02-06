@@ -146,7 +146,7 @@ void castAllRays() {
     }
 }
 
-void renderRays() {
+void renderMapRays() {
     for (int i = 0; i < NUM_RAYS; i++) {
         drawLine(
                 player.x * MINIMAP_SCALE_FACTOR,

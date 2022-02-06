@@ -30,4 +30,4 @@ void castRay(float rayAngle, int stripId);
 
 void castAllRays(void);
 
-void renderRays(void);
+void renderMapRays(void);

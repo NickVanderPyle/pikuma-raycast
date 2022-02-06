@@ -13,6 +13,6 @@ typedef struct {
 
 texture_t wallTextures[NUM_TEXTURES];
 
-void loadWallTextures();
+void loadTextures();
 
-void freeWallTextures();
+void freeTextures();

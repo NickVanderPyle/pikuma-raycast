@@ -16,4 +16,4 @@ extern player_t player;
 
 void movePlayer(float deltaTime);
 
-void RenderPlayer(void);
+void RenderMapPlayer(void);

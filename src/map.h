@@ -7,7 +7,7 @@
 
 bool mapHasWallAt(float x, float y);
 
-void RenderMap();
+void RenderMapGrid();
 
 int getMapAt(int i, int j);
 

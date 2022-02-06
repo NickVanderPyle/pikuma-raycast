@@ -13,7 +13,7 @@ bool isGameRunning = false;
 int ticksOnLastFrame = 0;
 
 void setup() {
-    loadWallTextures();
+    loadTextures();
 }
 
 void processInput() {
@@ -81,15 +81,15 @@ void render() {
     renderWallProjection();
 
     // minimap
-    RenderMap();
-    renderRays();
-    RenderPlayer();
+    RenderMapGrid();
+    renderMapRays();
+    RenderMapPlayer();
 
     renderColorBuffer();
 }
 
 void releaseResources() {
-    freeWallTextures();
+    freeTextures();
     destroyWindow();
 }
 

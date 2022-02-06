@@ -48,7 +48,7 @@ void renderWallProjection(void) {
             int textureOffset = (textureWidth * textureOffsetY) + textureOffsetX;
             color_t texelColor = wallTextures[texNum].texture_buffer[textureOffset];
 
-            if (ray.wasHitVertical){
+            if (ray.wasHitVertical) {
                 changeColorIntensity(&texelColor, 0.7);
             }
 

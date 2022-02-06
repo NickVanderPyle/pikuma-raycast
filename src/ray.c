@@ -2,6 +2,7 @@
 #include "ray.h"
 #include "player.h"
 #include "map.h"
+#include "graphics.h"
 #include <float.h>
 
 ray_t rays[NUM_RAYS];
@@ -135,16 +136,13 @@ void castAllRays() {
 }
 
 void renderRays() {
-    /*
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
     for (int i = 0; i < NUM_RAYS; i++) {
-        SDL_RenderDrawLine(
-                renderer,
+        drawLine(
                 player.x * MINIMAP_SCALE_FACTOR,
                 player.y * MINIMAP_SCALE_FACTOR,
                 rays[i].wallHitX * MINIMAP_SCALE_FACTOR,
-                rays[i].wallHitY * MINIMAP_SCALE_FACTOR
+                rays[i].wallHitY * MINIMAP_SCALE_FACTOR,
+                0xFF0000FF
         );
     }
-     */
 }

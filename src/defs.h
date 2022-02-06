@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdint.h>
 #include <math.h>
 
 #define PI 3.14159265
@@ -20,3 +21,5 @@
 #define FRAME_TIME_LENGTH (1000 / FPS)
 
 #define NUM_TEXTURES 9
+
+typedef uint32_t color_t;

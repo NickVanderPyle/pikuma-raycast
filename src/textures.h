@@ -7,7 +7,7 @@
 typedef struct {
     int width;
     int height;
-    uint32_t *texture_buffer;
+    color_t *texture_buffer;
     upng_t *upngTexture;
 } texture_t;
 

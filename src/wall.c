@@ -5,6 +5,15 @@
 #include "graphics.h"
 #include "textures.h"
 
+void changeColorIntensity(color_t *color, float factor) {
+    color_t a = *color & 0xFF000000;
+    color_t r = (*color & 0x00FF0000) * factor;
+    color_t g = (*color & 0x0000FF00) * factor;
+    color_t b = (*color & 0x000000FF) * factor;
+
+    *color = a | (r & 0x00FF0000) | (g & 0x0000FF00) | (b & 0x000000FF);
+}
+
 void renderWallProjection(void) {
     for (int x = 0; x < NUM_RAYS; x++) {
         ray_t ray = rays[x];
@@ -37,7 +46,11 @@ void renderWallProjection(void) {
             int distanceFromTop = y + (wallStripHeight / 2) - (WINDOW_HEIGHT / 2);
             int textureOffsetY = distanceFromTop * ((float) textureHeight / wallStripHeight);
             int textureOffset = (textureWidth * textureOffsetY) + textureOffsetX;
-            uint32_t texelColor = wallTextures[texNum].texture_buffer[textureOffset];
+            color_t texelColor = wallTextures[texNum].texture_buffer[textureOffset];
+
+            if (ray.wasHitVertical){
+                changeColorIntensity(&texelColor, 0.7);
+            }
 
             drawPixel(x, y, texelColor);
         }

@@ -5,7 +5,7 @@
 
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-static uint32_t *colorBuffer = NULL;
+static color_t *colorBuffer = NULL;
 static SDL_Texture *colorBufferTexture;
 
 bool initializeWindow(void) {
@@ -41,7 +41,7 @@ bool initializeWindow(void) {
     }
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
-    colorBuffer = (uint32_t *) malloc(sizeof(uint32_t) * (uint32_t) WINDOW_WIDTH * (uint32_t) WINDOW_HEIGHT);
+    colorBuffer = (color_t *) malloc(sizeof(color_t) * (color_t) WINDOW_WIDTH * (color_t) WINDOW_HEIGHT);
     colorBufferTexture = SDL_CreateTexture(
             renderer,
             SDL_PIXELFORMAT_RGBA32,
@@ -61,7 +61,7 @@ void destroyWindow(void) {
     SDL_Quit();
 }
 
-void clearColorBuffer(uint32_t color) {
+void clearColorBuffer(color_t color) {
     for (int i = 0; i < WINDOW_WIDTH * WINDOW_HEIGHT; i++) {
         colorBuffer[i] = color;
     }
@@ -72,18 +72,18 @@ void renderColorBuffer(void) {
             colorBufferTexture,
             NULL,
             colorBuffer,
-            (int) ((uint32_t) WINDOW_WIDTH * sizeof(uint32_t))
+            (int) ((color_t) WINDOW_WIDTH * sizeof(color_t))
     );
     SDL_RenderCopy(renderer, colorBufferTexture, NULL, NULL);
 
     SDL_RenderPresent(renderer);
 }
 
-void drawPixel(int x, int y, uint32_t color) {
+void drawPixel(int x, int y, color_t color) {
     colorBuffer[(y * WINDOW_WIDTH) + x] = color;
 }
 
-void drawRect(int x, int y, int width, int height, uint32_t color) {
+void drawRect(int x, int y, int width, int height, color_t color) {
     for (int i = x; i <= (x + width); i++) {
         for (int j = y; j <= (y + height); j++) {
             drawPixel(i, j, color);
@@ -91,7 +91,7 @@ void drawRect(int x, int y, int width, int height, uint32_t color) {
     }
 }
 
-void drawLine(int x0, int y0, int x1, int y1, uint32_t color) {
+void drawLine(int x0, int y0, int x1, int y1, color_t color) {
     int deltaX = abs(x1 - x0);
     int slopeX = x0 < x1 ? 1 : -1;
     int deltaY = -abs(y1 - y0);

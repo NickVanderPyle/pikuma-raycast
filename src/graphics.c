@@ -92,20 +92,25 @@ void drawRect(int x, int y, int width, int height, uint32_t color) {
 }
 
 void drawLine(int x0, int y0, int x1, int y1, uint32_t color) {
-    int deltaX = x1 - x0;
-    int deltaY = y1 - y0;
+    int deltaX = abs(x1 - x0);
+    int slopeX = x0 < x1 ? 1 : -1;
+    int deltaY = -abs(y1 - y0);
+    int slopeY = y0 < y1 ? 1 : -1;
+    int err = deltaX + deltaY;
 
-    int longestSideLength = abs(deltaX) >= abs(deltaY) ? abs(deltaX) : abs(deltaY);
-
-    float xIncrement = deltaX / (float) longestSideLength;
-    float yIncrement = deltaY / (float) longestSideLength;
-
-    float currentX = x0;
-    float currentY = y0;
-
-    for (int i = 0; i < longestSideLength; i++) {
-        drawPixel(round(currentX), round(currentY), color);
-        currentX += xIncrement;
-        currentY += yIncrement;
+    while (true) {
+        drawPixel(x0, y0, color);
+        if (x0 == x1 && y0 == y1) {
+            break;
+        }
+        int e2 = 2 * err;
+        if (e2 >= deltaY) {
+            err += deltaY;
+            x0 += slopeX;
+        }
+        if (e2 <= deltaX) {
+            err += deltaX;
+            y0 += slopeY;
+        }
     }
 }

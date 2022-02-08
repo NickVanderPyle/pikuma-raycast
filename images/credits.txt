@@ -8,3 +8,10 @@
     TilledSoil.png
     WalkStone.png
     Stone.png
+
+"Misc. Dark Fantasy Scenery Sprites" by ETTiNGRiNDER licensed CC0 https://opengameart.org/content/misc-dark-fantasy-scenery-sprites
+    Sprite-0001.png
+    Sprite-0002.png
+    Sprite-0003.png
+    Sprite-0004.png
+    Sprite-0005.png

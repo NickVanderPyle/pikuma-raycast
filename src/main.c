@@ -8,6 +8,7 @@
 #include "ray.h"
 #include "player.h"
 #include "wall.h"
+#include "sprite.h"
 
 bool isGameRunning = false;
 int ticksOnLastFrame = 0;
@@ -79,10 +80,12 @@ void render() {
     clearColorBuffer(0xFF000000);
 
     renderWallProjection();
+    renderSpriteProjection();
 
     // minimap
     RenderMapGrid();
     renderMapRays();
+    renderMapSprites();
     RenderMapPlayer();
 
     renderColorBuffer();

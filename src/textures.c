@@ -12,6 +12,11 @@ static const char *textureFileNames[NUM_TEXTURES] = {
         "./images/TilledSoil.png",
         "./images/WalkStone.png",
         "./images/Stone.png",
+        "./images/Sprite-0001.png",
+        "./images/Sprite-0002.png",
+        "./images/Sprite-0003.png",
+        "./images/Sprite-0004.png",
+        "./images/Sprite-0005.png"
 };
 
 void loadTextures() {

@@ -34,7 +34,7 @@ void castRay(float rayAngle, int stripId) {
     bool foundHorizWallHit = false;
     float horizWallHitX = 0;
     float horizWallHitY = 0;
-    int horizWallContent = 0;
+    int horizWallTexture = 0;
 
     yIntercept = floor(player.y / TILE_SIZE) * TILE_SIZE;
     yIntercept += isRayFacingDown(rayAngle) ? TILE_SIZE : 0;
@@ -59,7 +59,7 @@ void castRay(float rayAngle, int stripId) {
             //wall hit
             horizWallHitX = nextHorizTouchX;
             horizWallHitY = nextHorizTouchY;
-            horizWallContent = getMapAt((int) floor(yToCheck / TILE_SIZE), (int) floor(xToCheck / TILE_SIZE));
+            horizWallTexture = getMapAt((int) floor(yToCheck / TILE_SIZE), (int) floor(xToCheck / TILE_SIZE));
             foundHorizWallHit = true;
             break;
         }
@@ -72,7 +72,7 @@ void castRay(float rayAngle, int stripId) {
     bool foundVerticalWallHit = false;
     float verticalWallHitX = 0;
     float verticalWallHitY = 0;
-    int verticalWallContent = 0;
+    int verticalWallTexture = 0;
 
     xIntercept = floor(player.x / TILE_SIZE) * TILE_SIZE;
     xIntercept += isRayFacingRight(rayAngle) ? TILE_SIZE : 0;
@@ -97,7 +97,7 @@ void castRay(float rayAngle, int stripId) {
             //wall hit
             verticalWallHitX = nextVerticalTouchX;
             verticalWallHitY = nextVerticalTouchY;
-            verticalWallContent = getMapAt((int) floor(yToCheck / TILE_SIZE), (int) floor(xToCheck / TILE_SIZE));
+            verticalWallTexture = getMapAt((int) floor(yToCheck / TILE_SIZE), (int) floor(xToCheck / TILE_SIZE));
             foundVerticalWallHit = true;
             break;
         }
@@ -116,14 +116,14 @@ void castRay(float rayAngle, int stripId) {
         rays[stripId].distance = verticalHitDistance;
         rays[stripId].wallHitX = verticalWallHitX;
         rays[stripId].wallHitY = verticalWallHitY;
-        rays[stripId].wallHitContent = verticalWallContent;
+        rays[stripId].texture = verticalWallTexture;
         rays[stripId].wasHitVertical = true;
         rays[stripId].rayAngle = rayAngle;
     } else {
         rays[stripId].distance = horizontalHitDistance;
         rays[stripId].wallHitX = horizWallHitX;
         rays[stripId].wallHitY = horizWallHitY;
-        rays[stripId].wallHitContent = horizWallContent;
+        rays[stripId].texture = horizWallTexture;
         rays[stripId].wasHitVertical = false;
         rays[stripId].rayAngle = rayAngle;
     }

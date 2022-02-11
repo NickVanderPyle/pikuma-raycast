@@ -36,7 +36,7 @@ void renderWallProjection(void) {
         int textureOffsetX = ray.wasHitVertical
                              ? (int) ray.wallHitY % TILE_SIZE
                              : (int) ray.wallHitX % TILE_SIZE;
-        int texNum = ray.wallHitContent - 1;
+        int texNum = ray.texture - 1;
 
         int textureWidth = upng_get_width(textures[texNum]);
         int textureHeight = upng_get_height(textures[texNum]);
